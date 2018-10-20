@@ -1,4 +1,5 @@
-require File.join(File.dirname(__FILE__), 'gilded_rose')
+#require File.expand_path '../spec_helper.rb', __FILE__
+require './gilded_rose'
 
 describe GildedRose do
 
