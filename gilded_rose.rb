@@ -49,6 +49,10 @@ class GildedRose
     item.name == 'Backstage passes to a TAFKAL80ETC concert'
   end
 
+  def conjured?(item)
+    item.name == 'Conjured Mana Cake'
+  end
+
   def drop_quality(item)
     item.quality -= 1 if item.quality > 0
   end
