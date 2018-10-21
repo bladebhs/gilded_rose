@@ -96,7 +96,7 @@ describe GildedRose do
     end
 
     context 'when the item is Conjured' do
-      let(:conjured) { build(:item, name: 'Conjured') }
+      let(:conjured) { build(:item, name: 'Conjured Mana Cake') }
 
       it 'decreases quality twice as fast' do
         expect do
