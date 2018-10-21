@@ -7,12 +7,12 @@ class GildedRose
     @items.each do |item|
       next if legendary?(item)
 
-      if item.name != 'Aged Brie' && item.name != 'Backstage passes to a TAFKAL80ETC concert'
+      if item.name != 'Aged Brie' && !backstage_passes?(item)
         drop_quality(item)
       else
         if item.quality < 50
           item.quality += 1
-          if item.name == 'Backstage passes to a TAFKAL80ETC concert'
+          if backstage_passes?(item)
             if item.sell_in < 11
               item.quality += 1
             end
@@ -25,7 +25,7 @@ class GildedRose
       item.sell_in -= 1
       if item.sell_in < 0
         if item.name != 'Aged Brie'
-          if item.name != 'Backstage passes to a TAFKAL80ETC concert'
+          if !backstage_passes?(item)
             drop_quality(item)
           else
             item.quality = 0
@@ -43,6 +43,10 @@ class GildedRose
 
   def legendary?(item)
     item.name == 'Sulfuras, Hand of Ragnaros'
+  end
+
+  def backstage_passes?(item)
+    item.name == 'Backstage passes to a TAFKAL80ETC concert'
   end
 
   def drop_quality(item)
