@@ -6,11 +6,7 @@ class GildedRose
   def update_quality
     @items.each do |item|
       if item.name != 'Aged Brie' && item.name != 'Backstage passes to a TAFKAL80ETC concert'
-        if item.quality > 0
-          if item.name != 'Sulfuras, Hand of Ragnaros'
-            item.quality -= 1
-          end
-        end
+        drop_quality(item)
       else
         if item.quality < 50
           item.quality += 1
@@ -24,17 +20,11 @@ class GildedRose
           end
         end
       end
-      if item.name != 'Sulfuras, Hand of Ragnaros'
-        item.sell_in -= 1
-      end
+      item.sell_in -= 1 unless legendary?(item)
       if item.sell_in < 0
         if item.name != 'Aged Brie'
           if item.name != 'Backstage passes to a TAFKAL80ETC concert'
-            if item.quality > 0
-              if item.name != 'Sulfuras, Hand of Ragnaros'
-                item.quality -= 1
-              end
-            end
+            drop_quality(item)
           else
             item.quality = 0
           end
@@ -45,5 +35,17 @@ class GildedRose
         end
       end
     end
+  end
+
+  private
+
+  def legendary?(item)
+    item.name == 'Sulfuras, Hand of Ragnaros'
+  end
+
+  def drop_quality(item)
+    return if legendary?(item)
+
+    item.quality -= 1 if item.quality > 0
   end
 end
