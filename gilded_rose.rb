@@ -17,15 +17,7 @@ class GildedRose
         drop_quality(item)
       end
       item.sell_in -= 1
-      if item.sell_in < 0
-        if aged_brie?(item)
-          rise_quality(item)
-        elsif backstage_passes?(item)
-          item.quality = 0
-        else
-          drop_quality(item)
-        end
-      end
+      update_expired_item(item)
     end
   end
 
@@ -54,5 +46,17 @@ class GildedRose
 
   def rise_quality(item)
     item.quality += 1 if item.quality < 50
+  end
+
+  def update_expired_item(item)
+    return if item.sell_in >= 0
+
+    if aged_brie?(item)
+      rise_quality(item)
+    elsif backstage_passes?(item)
+      item.quality = 0
+    else
+      drop_quality(item)
+    end
   end
 end
