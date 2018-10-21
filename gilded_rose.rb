@@ -48,7 +48,8 @@ class GildedRose
   end
 
   def drop_quality(item)
-    item.quality -= 1 if item.quality > 0
+    step = conjured?(item) ? 2 : 1
+    item.quality -= step if item.quality > 0
   end
 
   def rise_quality(item)
