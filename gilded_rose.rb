@@ -10,16 +10,10 @@ class GildedRose
       if item.name != 'Aged Brie' && !backstage_passes?(item)
         drop_quality(item)
       else
-        if item.quality < 50
-          item.quality += 1
-          if backstage_passes?(item)
-            if item.sell_in < 11
-              item.quality += 1
-            end
-            if item.sell_in < 6
-              item.quality += 1
-            end
-          end
+        rise_quality(item)
+        if backstage_passes?(item)
+          rise_quality(item) if item.sell_in < 11
+          rise_quality(item) if item.sell_in < 6
         end
       end
       item.sell_in -= 1
@@ -31,9 +25,7 @@ class GildedRose
             item.quality = 0
           end
         else
-          if item.quality < 50
-            item.quality += 1
-          end
+          rise_quality(item)
         end
       end
     end
@@ -55,5 +47,9 @@ class GildedRose
 
   def drop_quality(item)
     item.quality -= 1 if item.quality > 0
+  end
+
+  def rise_quality(item)
+    item.quality += 1 if item.quality < 50
   end
 end
