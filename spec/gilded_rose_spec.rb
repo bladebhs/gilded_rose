@@ -67,6 +67,13 @@ describe GildedRose do
         build(:item, name: 'Backstage passes to a TAFKAL80ETC concert')
       end
 
+      it 'increases the quality by 1 when there are more than 10 days' do
+        backstage_passes.sell_in = 11
+        expect do
+          GildedRose.new([backstage_passes]).update_quality
+        end.to change { backstage_passes.quality }.by(1)
+      end
+
       it 'increases the quality by 2 when there are 10 days or less' do
         backstage_passes.sell_in = 10
         expect do
