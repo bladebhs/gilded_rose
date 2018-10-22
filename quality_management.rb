@@ -4,11 +4,7 @@ class QualityManagement
   class << self
     def update(item)
       if ItemType.aged_brie?(item) || ItemType.backstage_passes?(item)
-        item.quality += 1 if item.quality < 50
-        if ItemType.backstage_passes?(item)
-          rise_quality(item) if item.sell_in < 11
-          rise_quality(item) if item.sell_in < 6
-        end
+        rise_quality(item)
       else
         drop_quality(item)
       end
@@ -18,7 +14,7 @@ class QualityManagement
       return if item.sell_in >= 0
 
       if ItemType.aged_brie?(item)
-        rise_quality(item)
+        item.quality += 1 if item.quality < 50
       elsif ItemType.backstage_passes?(item)
         item.quality = 0
       else
@@ -34,7 +30,13 @@ class QualityManagement
     end
 
     def rise_quality(item)
-      item.quality += 1 if item.quality < 50
+      return if item.quality == 50
+
+      item.quality += 1
+      return unless ItemType.backstage_passes?(item)
+
+      item.quality += 1 if item.sell_in < 11
+      item.quality += 1 if item.sell_in < 6
     end
   end
 end
