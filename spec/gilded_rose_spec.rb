@@ -64,7 +64,8 @@ describe GildedRose do
 
     context 'when the item is Backstage passes' do
       let(:backstage_passes) do
-        build(:item, name: 'Backstage passes to a TAFKAL80ETC concert')
+        build(:item, name: 'Backstage passes to a TAFKAL80ETC concert',
+                     quality: 5)
       end
 
       it 'increases the quality by 1 when there are more than 10 days' do
