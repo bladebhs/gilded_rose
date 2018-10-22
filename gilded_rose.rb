@@ -1,4 +1,4 @@
-require './quality_management'
+require_relative 'services/quality_management'
 
 class GildedRose
   def initialize(items)

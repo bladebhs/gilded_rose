@@ -1,4 +1,4 @@
-require './item_type'
+require_relative 'item_type'
 
 class QualityManagement
   class << self
