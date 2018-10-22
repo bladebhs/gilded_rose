@@ -1,3 +1,5 @@
+require './item_type'
+
 class GildedRose
   def initialize(items)
     @items = items
@@ -5,11 +7,11 @@ class GildedRose
 
   def update_quality
     @items.each do |item|
-      next if legendary?(item)
+      next if ItemType.legendary?(item)
 
-      if aged_brie?(item) || backstage_passes?(item)
+      if ItemType.aged_brie?(item) || ItemType.backstage_passes?(item)
         rise_quality(item)
-        if backstage_passes?(item)
+        if ItemType.backstage_passes?(item)
           rise_quality(item) if item.sell_in < 11
           rise_quality(item) if item.sell_in < 6
         end
@@ -23,24 +25,8 @@ class GildedRose
 
   private
 
-  def legendary?(item)
-    item.name == 'Sulfuras, Hand of Ragnaros'
-  end
-
-  def backstage_passes?(item)
-    item.name == 'Backstage passes to a TAFKAL80ETC concert'
-  end
-
-  def conjured?(item)
-    item.name == 'Conjured Mana Cake'
-  end
-
-  def aged_brie?(item)
-    item.name == 'Aged Brie'
-  end
-
   def drop_quality(item)
-    step = conjured?(item) ? 2 : 1
+    step = ItemType.conjured?(item) ? 2 : 1
     item.quality -= step if item.quality > 0
   end
 
@@ -51,9 +37,9 @@ class GildedRose
   def update_expired_item(item)
     return if item.sell_in >= 0
 
-    if aged_brie?(item)
+    if ItemType.aged_brie?(item)
       rise_quality(item)
-    elsif backstage_passes?(item)
+    elsif ItemType.backstage_passes?(item)
       item.quality = 0
     else
       drop_quality(item)
